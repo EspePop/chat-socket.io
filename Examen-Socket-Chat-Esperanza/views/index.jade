@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	div#div
+		h1 Chat Socket.io
+		h4 Examen Módulo3: Esperanza Martín Martínez
+		br
+		h5#num Usuarios conectados: 0 
+	ul#messages
+	form(action="")
+		label#nicklabel(for="nick") NICK: 
+		input#nick(type="text",autocomplete="off")
+		br 
+		label#mlabel(for="m") MENSAJE: 
+		input#m(type="text", autocomplete="off") 
+		button#button 

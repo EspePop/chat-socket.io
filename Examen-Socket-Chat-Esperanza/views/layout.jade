@@ -1,0 +1,43 @@
+doctype html 
+html
+	head
+		title Socket.IO Chat - Esperanza Martín
+
+		style.
+			* { margin: 0; padding: 0; box-sizing: border-box;}
+			body { font: 16px Helvetica, Arial; background: url(../images/wh.png);}
+			#div {background: #205C53; padding: 5px 10px; height: 100px; color: #EFE7DE;}
+			form { background: #000; padding: 5px; position: fixed; bottom: 0; width: 100%; }
+			form label{ color: white; margin-left: 20px;} 
+			form input { border: 0; padding: 5px; width: 85%; margin: auto 10px; background: #EFE7DE;}
+			form button { width: 9%; background: url(../images/send.png) no-repeat #205C53 center; margin: 20px; height: 30px; width: 30px; border-radius: 50px; border:none; padding: 10px; }
+
+			#messages { list-style-type: none; margin-bottom: 100px; padding:0; }
+			#messages li { margin: 20px 10px; padding: 5px 10px; width: 40%; height: max-content; background: #e2e2e2;}
+			#messages li:nth-child(odd) {margin: 20px 10px; padding: 5px 10px; width: 40%; height: max-content; background: #eee; } 
+			#nick { margin: 5px 45px; width: 10% } 
+			#m {padding:8px; width:70%;}
+	body
+		block content
+		-//Lo requerimos en bin/www/
+		script(src="/socket.io/socket.io.js") 
+		script(src="https://code.jquery.com/jquery-1.11.1.js") 
+		script.
+			var socket = io();
+			var cont = 0;
+			var fnick = $('#nick'); 
+			var fmessage = $('#m');
+
+			$('form').submit(function(){
+				socket.emit('chat message', {nick : fnick.val(), message :
+					fmessage.val()}); 
+				$('#m').val(''); 
+				return false;
+			});
+			socket.on('chat message', function(msg){
+				$('#messages').append($('<li>').append('<b>'+msg.nick+'</b>: ' + msg.message));
+			});
+			socket.on('chat users', function(msg){
+				$('#num').text("Usuarios conectados: "+ msg);
+			});
+
